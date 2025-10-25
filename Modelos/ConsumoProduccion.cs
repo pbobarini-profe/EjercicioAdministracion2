@@ -11,6 +11,6 @@ namespace Modelos
         public int id { get; set; }
         public ConsumosInsumos consumoInsumo { get; set; }
         public ProduccionProductos produccionProducto { get; set; }
-        public string observaciones { get; set; }
+        public string observaciones { get; set; } //varchar max
     }
 }
