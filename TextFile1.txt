@@ -1,0 +1,19 @@
+Comandos SQL para creacion de tablas Insumos y consumoInsumos
+
+
+-- Tabla Insumos
+CREATE TABLE Insumos (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    descripcion VARCHAR(120) NOT NULL
+);
+GO
+
+-- Tabla ConsumosInsumos
+CREATE TABLE ConsumosInsumos (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    fecha DATETIME NOT NULL DEFAULT GETDATE(),
+    cantidad DECIMAL(18,2) NOT NULL,
+    idInsumo INT NOT NULL,
+    FOREIGN KEY (idInsumo) REFERENCES Insumos(id) ON DELETE CASCADE
+);
+GO
