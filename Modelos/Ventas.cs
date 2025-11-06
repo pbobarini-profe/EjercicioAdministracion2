@@ -19,5 +19,10 @@ namespace Modelos
         public decimal noGravado { get; set; }
         public decimal otrosTributos { get; set; }
         public Usuarios usuario { get; set; }
+
+        public override string ToString()
+        {
+            return $"{tipoComprobante.descripcion} {puntoVenta}-{numero} - {cliente.nombreCompleto} - {fecha.ToShortDateString()}";
+        }
     }
 }

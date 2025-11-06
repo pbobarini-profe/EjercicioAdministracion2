@@ -46,6 +46,7 @@
     <Compile Include="ConsumosInsumos.cs" />
     <Compile Include="DetalleCompras.cs" />
     <Compile Include="DetalleVentas.cs" />
+    <Compile Include="DtoDetalleVentaReporte.cs" />
     <Compile Include="Insumos.cs" />
     <Compile Include="ProduccionProductos.cs" />
     <Compile Include="Proveedores.cs" />

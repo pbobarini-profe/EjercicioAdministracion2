@@ -15,5 +15,10 @@ namespace Modelos
         public string contrasena { get; set; }
         public string mail { get; set; }
         public DateTime fechaAlta { get; set; }
+
+        public override string ToString()
+        {
+            return $"{nombre} {apellido} ({nombreUsuario})";
+        }
     }
 }

@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NDetalleVentas.cs" />
+    <Compile Include="NProducto.cs" />
+    <Compile Include="NUsuario.cs" />
+    <Compile Include="NVentas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -43,6 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Db.cs" />
+    <Compile Include="DCliente.cs" />
+    <Compile Include="DDetalleVentas.cs" />
+    <Compile Include="DProducto.cs" />
+    <Compile Include="DTipoComprobante.cs" />
+    <Compile Include="DUsuario.cs" />
+    <Compile Include="DVentas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
