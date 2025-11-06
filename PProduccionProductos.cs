@@ -1,295 +1,228 @@
 ﻿using System;
 using System.Windows.Forms;
-using Negocio;
 using Modelos;
+using Negocio;
 
-namespace EjercicioAdministracion2
+namespace Presentacion
 {
-    public partial class FormProduccionProductos : PFormBase
+    public partial class PProduccionProductos : Form
     {
-        private ProduccionProductosNegocio produccionNegocio;
-        private ProductosNegocio productosNegocio;
-        private ProduccionProductos produccionSeleccionada;
+        private NProduccionProductos negocioProduccion = new NProduccionProductos();
+        private NProductos negocioProductos = new NProductos();
+        private int idSeleccionado = 0;
 
-        public FormProduccionProductos()
+        public PProduccionProductos()
         {
             InitializeComponent();
-            produccionNegocio = new ProduccionProductosNegocio();
-            productosNegocio = new ProductosNegocio();
-            produccionSeleccionada = null;
-
-            ConfigurarEventos();
         }
 
-        private void ConfigurarEventos()
+        private void PProduccionProductos_Load(object sender, EventArgs e)
         {
-            button1.Text = "Agregar";
-            button2.Text = "Baja";
-            button3.Text = "Modificar";
-            button4.Text = "Filtrar";
-            button5.Text = "Desfiltrar";
-
-            button1.Click += btnAgregar_Click;
-            button2.Click += btnBaja_Click;
-            button3.Click += btnModificar_Click;
-            button4.Click += btnFiltrar_Click;
-            button5.Click += btnDesfiltrar_Click;
-            dataGridView1.SelectionChanged += dgv_SelectionChanged;
-            this.Load += FormProduccion_Load;
-        }
-
-        private void FormProduccion_Load(object sender, EventArgs e)
-        {
-            this.Text = "Gestión de Producción de Productos";
-            ConfigurarDataGridView();
-            CargarProducciones();
+            CargarGrilla();
+            CargarComboProductos();
             LimpiarCampos();
+            dtpFecha.Value = DateTime.Now;
         }
 
-        private void ConfigurarDataGridView()
-        {
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.MultiSelect = false;
-
-            dataGridView1.Columns.Clear();
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Id",
-                HeaderText = "ID",
-                DataPropertyName = "id",
-                Width = 50
-            });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "NombreProducto",
-                HeaderText = "Producto",
-                Width = 200
-            });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Cantidad",
-                HeaderText = "Cantidad",
-                DataPropertyName = "cantidad",
-                Width = 100
-            });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Fecha",
-                HeaderText = "Fecha Producción",
-                DataPropertyName = "fecha",
-                Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy HH:mm" }
-            });
-
-            // Evento para mostrar el nombre del producto
-            dataGridView1.CellFormatting += (s, e) =>
-            {
-                if (e.ColumnIndex == dataGridView1.Columns["NombreProducto"].Index && e.RowIndex >= 0)
-                {
-                    var produccion = dataGridView1.Rows[e.RowIndex].DataBoundItem as ProduccionProductos;
-                    if (produccion != null && produccion.producto != null)
-                    {
-                        e.Value = produccion.producto.Nombre;
-                    }
-                }
-            };
-        }
-
-        private void CargarProducciones()
+        private void CargarComboProductos()
         {
             try
             {
-                var resultado = produccionNegocio.ObtenerTodas();
+                cmbProducto.DataSource = null;
+                cmbProducto.DataSource = negocioProductos.Listar();
+                cmbProducto.DisplayMember = "descripcion";
+                cmbProducto.ValueMember = "id";
+                cmbProducto.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar productos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-                if (resultado.exito)
+        private void CargarGrilla()
+        {
+            try
+            {
+                dgvProduccion.DataSource = null;
+                var lista = negocioProduccion.Listar();
+
+                var listaVista = new System.Collections.Generic.List<object>();
+                foreach (var item in lista)
                 {
-                    dataGridView1.DataSource = null;
-                    dataGridView1.DataSource = resultado.producciones;
+                    listaVista.Add(new
+                    {
+                        id = item.id,
+                        fecha = item.fecha.ToString("dd/MM/yyyy"),
+                        producto = item.producto.descripcion,
+                        producto_id = item.producto.id,
+                        cantidad = item.cantidad
+                    });
                 }
-                else
+
+                dgvProduccion.DataSource = listaVista;
+                dgvProduccion.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                if (dgvProduccion.Columns["producto_id"] != null)
                 {
-                    MessageBox.Show(resultado.mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgvProduccion.Columns["producto_id"].Visible = false;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar producciones: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnAgregar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (FormProduccionDetalle form = new FormProduccionDetalle(productosNegocio))
-                {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        var resultado = produccionNegocio.Insertar(form.ProduccionActual);
-
-                        if (resultado.exito)
-                        {
-                            MessageBox.Show(resultado.mensaje, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            CargarProducciones();
-                            LimpiarCampos();
-                        }
-                        else
-                        {
-                            MessageBox.Show(resultado.mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al agregar producción: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnModificar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (produccionSeleccionada == null)
-                {
-                    MessageBox.Show("Debe seleccionar una producción de la grilla.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                decimal cantidadAnterior = produccionSeleccionada.cantidad;
-
-                using (FormProduccionDetalle form = new FormProduccionDetalle(productosNegocio, produccionSeleccionada))
-                {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        var resultado = produccionNegocio.Actualizar(form.ProduccionActual, cantidadAnterior);
-
-                        if (resultado.exito)
-                        {
-                            MessageBox.Show(resultado.mensaje, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            CargarProducciones();
-                            LimpiarCampos();
-                        }
-                        else
-                        {
-                            MessageBox.Show(resultado.mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al modificar producción: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnBaja_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (produccionSeleccionada == null)
-                {
-                    MessageBox.Show("Debe seleccionar una producción de la grilla.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                DialogResult confirmacion = MessageBox.Show(
-                    $"¿Está seguro que desea eliminar la producción de '{produccionSeleccionada.producto.Nombre}'?\n" +
-                    $"Se restarán {produccionSeleccionada.cantidad} unidades del stock.",
-                    "Confirmar eliminación",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (confirmacion == DialogResult.Yes)
-                {
-                    var resultado = produccionNegocio.Eliminar(produccionSeleccionada.id);
-
-                    if (resultado.exito)
-                    {
-                        MessageBox.Show(resultado.mensaje, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        CargarProducciones();
-                        LimpiarCampos();
-                    }
-                    else
-                    {
-                        MessageBox.Show(resultado.mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al eliminar producción: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnFiltrar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Filtro por fechas usando tbMin y tbMax
-                DateTime fechaInicio, fechaFin;
-
-                if (DateTime.TryParse(tbMin.Text, out fechaInicio) && DateTime.TryParse(tbMax.Text, out fechaFin))
-                {
-                    var resultado = produccionNegocio.ObtenerPorRangoFechas(fechaInicio, fechaFin);
-
-                    if (resultado.exito)
-                    {
-                        dataGridView1.DataSource = null;
-                        dataGridView1.DataSource = resultado.producciones;
-                        MessageBox.Show(resultado.mensaje, "Filtro", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show(resultado.mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Ingrese fechas válidas en formato dd/MM/yyyy", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al filtrar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnDesfiltrar_Click(object sender, EventArgs e)
-        {
-            tbMin.Clear();
-            tbMax.Clear();
-            CargarProducciones();
-        }
-
-        private void dgv_SelectionChanged(object sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count > 0)
-            {
-                produccionSeleccionada = (ProduccionProductos)dataGridView1.SelectedRows[0].DataBoundItem;
-                CargarDatosProduccion();
-            }
-        }
-
-        private void CargarDatosProduccion()
-        {
-            if (produccionSeleccionada != null)
-            {
-                tbDescripcion.Text = produccionSeleccionada.producto?.Nombre ?? "";
-                tbPrecio.Text = produccionSeleccionada.cantidad.ToString();
+                MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void LimpiarCampos()
         {
-            tbDescripcion.Clear();
-            tbPrecio.Clear();
-            produccionSeleccionada = null;
+            txtId.Clear();
+            dtpFecha.Value = DateTime.Now;
+            cmbProducto.SelectedIndex = -1;
+            txtCantidad.Clear();
+            idSeleccionado = 0;
+            dtpFecha.Focus();
+        }
 
-            if (dataGridView1.Rows.Count > 0)
-                dataGridView1.ClearSelection();
+        private void btnInsertar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cmbProducto.SelectedValue == null)
+                {
+                    MessageBox.Show("Debe seleccionar un producto", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                ProduccionProductos produccion = new ProduccionProductos
+                {
+                    fecha = dtpFecha.Value,
+                    producto = new Productos { id = Convert.ToInt32(cmbProducto.SelectedValue) },
+                    cantidad = Convert.ToDecimal(txtCantidad.Text)
+                };
+
+                string resultado = negocioProduccion.Insertar(produccion);
+                MessageBox.Show(resultado, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (resultado.Contains("correctamente"))
+                {
+                    CargarGrilla();
+                    LimpiarCampos();
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("La cantidad debe ser un número válido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (idSeleccionado == 0)
+                {
+                    MessageBox.Show("Debe seleccionar un registro de la grilla", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (cmbProducto.SelectedValue == null)
+                {
+                    MessageBox.Show("Debe seleccionar un producto", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                ProduccionProductos produccion = new ProduccionProductos
+                {
+                    id = idSeleccionado,
+                    fecha = dtpFecha.Value,
+                    producto = new Productos { id = Convert.ToInt32(cmbProducto.SelectedValue) },
+                    cantidad = Convert.ToDecimal(txtCantidad.Text)
+                };
+
+                string resultado = negocioProduccion.Actualizar(produccion);
+                MessageBox.Show(resultado, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (resultado.Contains("correctamente"))
+                {
+                    CargarGrilla();
+                    LimpiarCampos();
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("La cantidad debe ser un número válido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (idSeleccionado == 0)
+                {
+                    MessageBox.Show("Debe seleccionar un registro de la grilla", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                DialogResult confirmacion = MessageBox.Show("¿Está seguro de eliminar este registro?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (confirmacion == DialogResult.Yes)
+                {
+                    string resultado = negocioProduccion.Eliminar(idSeleccionado);
+                    MessageBox.Show(resultado, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (resultado.Contains("correctamente"))
+                    {
+                        CargarGrilla();
+                        LimpiarCampos();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarCampos();
+        }
+
+        private void dgvProduccion_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0)
+                {
+                    DataGridViewRow fila = dgvProduccion.Rows[e.RowIndex];
+                    idSeleccionado = Convert.ToInt32(fila.Cells["id"].Value);
+                    txtId.Text = fila.Cells["id"].Value.ToString();
+
+                    // Parsear la fecha que viene en formato string
+                    string fechaStr = fila.Cells["fecha"].Value.ToString();
+                    dtpFecha.Value = DateTime.ParseExact(fechaStr, "dd/MM/yyyy", null);
+
+                    // Seleccionar el producto en el combo
+                    int productoId = Convert.ToInt32(fila.Cells["producto_id"].Value);
+                    cmbProducto.SelectedValue = productoId;
+
+                    txtCantidad.Text = fila.Cells["cantidad"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al seleccionar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

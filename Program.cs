@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Modelos;
+using Presentacion;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,7 @@ namespace EjercicioClinica
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Menu());
+            Application.Run(new PProductos());
         }
     }
 }

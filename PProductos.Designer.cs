@@ -1,16 +1,21 @@
-﻿namespace EjercicioAdministracion2
+﻿namespace Presentacion
 {
     partial class PProductos
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.Label lblId;
+        private System.Windows.Forms.Label lblDescripcion;
+        private System.Windows.Forms.TextBox txtId;
+        private System.Windows.Forms.TextBox txtDescripcion;
+        private System.Windows.Forms.Button btnInsertar;
+        private System.Windows.Forms.Button btnActualizar;
+        private System.Windows.Forms.Button btnEliminar;
+        private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.DataGridView dgvProductos;
+        private System.Windows.Forms.GroupBox gbDatos;
+        private System.Windows.Forms.GroupBox gbListado;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,28 +25,15 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            // 
-            // PProductos
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+
+            this.ClientSize = new System.Drawing.Size(284, 261);
             this.Name = "PProductos";
-            this.Text = "PProductos";
             this.Load += new System.EventHandler(this.PProductos_Load);
             this.ResumeLayout(false);
 
         }
-
-        #endregion
     }
 }

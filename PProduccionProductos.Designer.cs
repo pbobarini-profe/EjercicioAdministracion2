@@ -1,16 +1,25 @@
-﻿namespace EjercicioAdministracion2
+﻿namespace Presentacion
 {
     partial class PProduccionProductos
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.Label lblId;
+        private System.Windows.Forms.Label lblFecha;
+        private System.Windows.Forms.Label lblProducto;
+        private System.Windows.Forms.Label lblCantidad;
+        private System.Windows.Forms.TextBox txtId;
+        private System.Windows.Forms.DateTimePicker dtpFecha;
+        private System.Windows.Forms.ComboBox cmbProducto;
+        private System.Windows.Forms.TextBox txtCantidad;
+        private System.Windows.Forms.Button btnInsertar;
+        private System.Windows.Forms.Button btnActualizar;
+        private System.Windows.Forms.Button btnEliminar;
+        private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.DataGridView dgvProduccion;
+        private System.Windows.Forms.GroupBox gbDatos;
+        private System.Windows.Forms.GroupBox gbListado;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,28 +29,14 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            // 
-            // PProduccionProductos
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(284, 261);
             this.Name = "PProduccionProductos";
-            this.Text = "PProduccionProductos";
             this.Load += new System.EventHandler(this.PProduccionProductos_Load);
             this.ResumeLayout(false);
 
         }
-
-        #endregion
     }
 }
