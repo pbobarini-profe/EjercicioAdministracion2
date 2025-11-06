@@ -8,6 +8,7 @@ namespace Modelos
 {
     public class ProduccionProductos
     {
+        //Rodrigo
         public int id { get; set; }
         public DateTime fecha { get; set; }
         public Productos producto { get; set; }

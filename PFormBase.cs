@@ -16,5 +16,12 @@ namespace EjercicioAdministracion2
         {
             InitializeComponent();
         }
+
+        private void PFormBase_Load(object sender, EventArgs e)
+        {
+            // TODO: esta línea de código carga datos en la tabla 'practicaDataSet.Productos' Puede moverla o quitarla según sea necesario.
+            this.productosTableAdapter.Fill(this.practicaDataSet.Productos);
+
+        }
     }
 }
