@@ -193,7 +193,13 @@
             this.dgvProduccion.Size = new System.Drawing.Size(494, 431);
             this.dgvProduccion.TabIndex = 0;
 
-           
+            
+            this.btnInsertar.Click += new System.EventHandler(this.btnInsertar_Click);
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
+            this.dgvProduccion.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProduccion_CellClick);
+
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(910, 530);

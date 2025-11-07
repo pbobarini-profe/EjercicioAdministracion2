@@ -18,7 +18,7 @@ namespace EjercicioClinica
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PProductos());
+            Application.Run(new PProduccionProductos());
         }
     }
 }
