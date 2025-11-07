@@ -1,7 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using EjercicioAdministracion2;
 using Modelos;
 using Negocio;
+using System;
+using System.Windows.Forms;
 
 namespace Presentacion
 {
@@ -42,7 +43,20 @@ namespace Presentacion
             idSeleccionado = 0;
             txtDescripcion.Focus();
         }
-
+        private void btnReporte_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PProductosReporte formReporte = new PProductosReporte();
+                formReporte.ShowDialog(); 
+                                          
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el reporte: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void btnInsertar_Click(object sender, EventArgs e)
         {
             try

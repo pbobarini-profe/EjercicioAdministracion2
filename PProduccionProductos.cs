@@ -1,7 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
+﻿
 using Modelos;
 using Negocio;
+using System;
+using System.Windows.Forms;
 
 namespace Presentacion
 {
@@ -23,7 +24,20 @@ namespace Presentacion
             LimpiarCampos();
             dtpFecha.Value = DateTime.Now;
         }
+        private void btnReporte_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PProduccionProductosReporte formReporte = new PProduccionProductosReporte();
+                formReporte.ShowDialog();
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el reporte: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void CargarComboProductos()
         {
             try
@@ -208,11 +222,11 @@ namespace Presentacion
                     idSeleccionado = Convert.ToInt32(fila.Cells["id"].Value);
                     txtId.Text = fila.Cells["id"].Value.ToString();
 
-                    // Parsear la fecha que viene en formato string
+
                     string fechaStr = fila.Cells["fecha"].Value.ToString();
                     dtpFecha.Value = DateTime.ParseExact(fechaStr, "dd/MM/yyyy", null);
 
-                    // Seleccionar el producto en el combo
+
                     int productoId = Convert.ToInt32(fila.Cells["producto_id"].Value);
                     cmbProducto.SelectedValue = productoId;
 
@@ -223,6 +237,11 @@ namespace Presentacion
             {
                 MessageBox.Show("Error al seleccionar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
