@@ -16,5 +16,10 @@ namespace EjercicioAdministracion2
         {
             InitializeComponent();
         }
+
+        private void PFormBase_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
