@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EjercicioAdministracion2;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,13 @@ namespace EjercicioClinica
         public Menu()
         {
             InitializeComponent();
+        }
+
+        private void comprasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PCompras compras = new PCompras();
+            compras.Show();
+
         }
     }
 }
