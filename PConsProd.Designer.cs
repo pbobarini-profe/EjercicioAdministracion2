@@ -31,12 +31,19 @@
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productoIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.insumoIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.insumoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.aDtoConsProdBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.txtConsInsu = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.txtProdProd = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtConsInsu = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtObserv = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
@@ -46,23 +53,23 @@
             this.button6 = new System.Windows.Forms.Button();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
+            this.cbCampo = new System.Windows.Forms.ComboBox();
             this.txtFiltro = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.lP1DataSet1 = new EjercicioAdministracion2.LP1DataSet1();
+            this.lP1DataSet = new EjercicioAdministracion2.LP1DataSet();
+            this.consumoProduccionTableAdapter = new EjercicioAdministracion2.LP1DataSetTableAdapters.ConsumoProduccionTableAdapter();
             this.consumoProduccionBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.consumoProduccionTableAdapter = new EjercicioAdministracion2.LP1DataSet1TableAdapters.ConsumoProduccionTableAdapter();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.consumoInsumoIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.produccionProductoIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.observacionesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aDtoConsProdBindingSource)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.lP1DataSet1)).BeginInit();
+            this.flowLayoutPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lP1DataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.consumoProduccionBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,11 +102,13 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idDataGridViewTextBoxColumn,
-            this.consumoInsumoIdDataGridViewTextBoxColumn,
-            this.produccionProductoIdDataGridViewTextBoxColumn,
-            this.observacionesDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.consumoProduccionBindingSource;
+            this.dataGridViewTextBoxColumn1,
+            this.productoIdDataGridViewTextBoxColumn,
+            this.productoDataGridViewTextBoxColumn,
+            this.insumoIdDataGridViewTextBoxColumn,
+            this.insumoDataGridViewTextBoxColumn,
+            this.dataGridViewTextBoxColumn2});
+            this.dataGridView1.DataSource = this.aDtoConsProdBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(4, 88);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
@@ -109,6 +118,58 @@
             this.dataGridView1.Size = new System.Drawing.Size(822, 238);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.DataGridView1_SelectionChanged);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "Id";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // productoIdDataGridViewTextBoxColumn
+            // 
+            this.productoIdDataGridViewTextBoxColumn.DataPropertyName = "ProductoId";
+            this.productoIdDataGridViewTextBoxColumn.HeaderText = "ProductoId";
+            this.productoIdDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.productoIdDataGridViewTextBoxColumn.Name = "productoIdDataGridViewTextBoxColumn";
+            this.productoIdDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // productoDataGridViewTextBoxColumn
+            // 
+            this.productoDataGridViewTextBoxColumn.DataPropertyName = "Producto";
+            this.productoDataGridViewTextBoxColumn.HeaderText = "Producto";
+            this.productoDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.productoDataGridViewTextBoxColumn.Name = "productoDataGridViewTextBoxColumn";
+            this.productoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // insumoIdDataGridViewTextBoxColumn
+            // 
+            this.insumoIdDataGridViewTextBoxColumn.DataPropertyName = "InsumoId";
+            this.insumoIdDataGridViewTextBoxColumn.HeaderText = "InsumoId";
+            this.insumoIdDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.insumoIdDataGridViewTextBoxColumn.Name = "insumoIdDataGridViewTextBoxColumn";
+            this.insumoIdDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // insumoDataGridViewTextBoxColumn
+            // 
+            this.insumoDataGridViewTextBoxColumn.DataPropertyName = "Insumo";
+            this.insumoDataGridViewTextBoxColumn.HeaderText = "Insumo";
+            this.insumoDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.insumoDataGridViewTextBoxColumn.Name = "insumoDataGridViewTextBoxColumn";
+            this.insumoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Observaciones";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Observaciones";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // aDtoConsProdBindingSource
+            // 
+            this.aDtoConsProdBindingSource.DataSource = typeof(Modelos.A_DtoConsProd);
             // 
             // flowLayoutPanel1
             // 
@@ -124,10 +185,10 @@
             // 
             // flowLayoutPanel2
             // 
-            this.flowLayoutPanel2.Controls.Add(this.txtConsInsu);
-            this.flowLayoutPanel2.Controls.Add(this.label1);
             this.flowLayoutPanel2.Controls.Add(this.txtProdProd);
             this.flowLayoutPanel2.Controls.Add(this.label2);
+            this.flowLayoutPanel2.Controls.Add(this.txtConsInsu);
+            this.flowLayoutPanel2.Controls.Add(this.label1);
             this.flowLayoutPanel2.Controls.Add(this.label3);
             this.flowLayoutPanel2.Controls.Add(this.txtObserv);
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -137,26 +198,9 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(818, 101);
             this.flowLayoutPanel2.TabIndex = 0;
             // 
-            // txtConsInsu
-            // 
-            this.txtConsInsu.Location = new System.Drawing.Point(4, 4);
-            this.txtConsInsu.Margin = new System.Windows.Forms.Padding(4);
-            this.txtConsInsu.Name = "txtConsInsu";
-            this.txtConsInsu.Size = new System.Drawing.Size(132, 22);
-            this.txtConsInsu.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(143, 16);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Consumos de Insumos";
-            // 
             // txtProdProd
             // 
-            this.txtProdProd.Location = new System.Drawing.Point(4, 50);
+            this.txtProdProd.Location = new System.Drawing.Point(4, 4);
             this.txtProdProd.Margin = new System.Windows.Forms.Padding(4);
             this.txtProdProd.Name = "txtProdProd";
             this.txtProdProd.Size = new System.Drawing.Size(132, 22);
@@ -165,11 +209,28 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 76);
+            this.label2.Location = new System.Drawing.Point(3, 30);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(158, 16);
             this.label2.TabIndex = 5;
             this.label2.Text = "Produccion de Productos";
+            // 
+            // txtConsInsu
+            // 
+            this.txtConsInsu.Location = new System.Drawing.Point(4, 50);
+            this.txtConsInsu.Margin = new System.Windows.Forms.Padding(4);
+            this.txtConsInsu.Name = "txtConsInsu";
+            this.txtConsInsu.Size = new System.Drawing.Size(132, 22);
+            this.txtConsInsu.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 76);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(143, 16);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Consumos de Insumos";
             // 
             // label3
             // 
@@ -246,10 +307,9 @@
             // flowLayoutPanel4
             // 
             this.flowLayoutPanel4.Controls.Add(this.label4);
+            this.flowLayoutPanel4.Controls.Add(this.cbCampo);
             this.flowLayoutPanel4.Controls.Add(this.txtFiltro);
-            this.flowLayoutPanel4.Controls.Add(this.button4);
-            this.flowLayoutPanel4.Controls.Add(this.button5);
-            this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel4.Controls.Add(this.flowLayoutPanel5);
             this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel4.Location = new System.Drawing.Point(4, 4);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(4);
@@ -262,21 +322,45 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(224, 16);
+            this.label4.Size = new System.Drawing.Size(72, 16);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Filtrar por Id de ProduccionProducto:";
+            this.label4.Text = "Filtrar por...";
+            // 
+            // cbCampo
+            // 
+            this.cbCampo.FormattingEnabled = true;
+            this.cbCampo.Items.AddRange(new object[] {
+            "Producto",
+            "Insumo",
+            "Observaciones",
+            "ProductoId",
+            "InsumoId"});
+            this.cbCampo.Location = new System.Drawing.Point(3, 19);
+            this.cbCampo.Name = "cbCampo";
+            this.cbCampo.Size = new System.Drawing.Size(121, 24);
+            this.cbCampo.TabIndex = 6;
             // 
             // txtFiltro
             // 
-            this.txtFiltro.Location = new System.Drawing.Point(4, 20);
+            this.txtFiltro.Location = new System.Drawing.Point(4, 50);
             this.txtFiltro.Margin = new System.Windows.Forms.Padding(4);
             this.txtFiltro.Name = "txtFiltro";
             this.txtFiltro.Size = new System.Drawing.Size(132, 22);
             this.txtFiltro.TabIndex = 0;
             // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.Controls.Add(this.button4);
+            this.flowLayoutPanel5.Controls.Add(this.button5);
+            this.flowLayoutPanel5.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(143, 3);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(109, 73);
+            this.flowLayoutPanel5.TabIndex = 5;
+            // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(234, 4);
+            this.button4.Location = new System.Drawing.Point(4, 4);
             this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(100, 28);
@@ -287,7 +371,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(234, 40);
+            this.button5.Location = new System.Drawing.Point(4, 40);
             this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(100, 28);
@@ -296,51 +380,19 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // lP1DataSet1
+            // lP1DataSet
             // 
-            this.lP1DataSet1.DataSetName = "LP1DataSet1";
-            this.lP1DataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // consumoProduccionBindingSource
-            // 
-            this.consumoProduccionBindingSource.DataMember = "ConsumoProduccion";
-            this.consumoProduccionBindingSource.DataSource = this.lP1DataSet1;
+            this.lP1DataSet.DataSetName = "LP1DataSet";
+            this.lP1DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // consumoProduccionTableAdapter
             // 
             this.consumoProduccionTableAdapter.ClearBeforeFill = true;
             // 
-            // idDataGridViewTextBoxColumn
+            // consumoProduccionBindingSource
             // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "id";
-            this.idDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // consumoInsumoIdDataGridViewTextBoxColumn
-            // 
-            this.consumoInsumoIdDataGridViewTextBoxColumn.DataPropertyName = "consumoInsumoId";
-            this.consumoInsumoIdDataGridViewTextBoxColumn.HeaderText = "consumoInsumoId";
-            this.consumoInsumoIdDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.consumoInsumoIdDataGridViewTextBoxColumn.Name = "consumoInsumoIdDataGridViewTextBoxColumn";
-            this.consumoInsumoIdDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // produccionProductoIdDataGridViewTextBoxColumn
-            // 
-            this.produccionProductoIdDataGridViewTextBoxColumn.DataPropertyName = "produccionProductoId";
-            this.produccionProductoIdDataGridViewTextBoxColumn.HeaderText = "produccionProductoId";
-            this.produccionProductoIdDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.produccionProductoIdDataGridViewTextBoxColumn.Name = "produccionProductoIdDataGridViewTextBoxColumn";
-            this.produccionProductoIdDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // observacionesDataGridViewTextBoxColumn
-            // 
-            this.observacionesDataGridViewTextBoxColumn.DataPropertyName = "observaciones";
-            this.observacionesDataGridViewTextBoxColumn.HeaderText = "observaciones";
-            this.observacionesDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.observacionesDataGridViewTextBoxColumn.Name = "observacionesDataGridViewTextBoxColumn";
-            this.observacionesDataGridViewTextBoxColumn.ReadOnly = true;
+            this.consumoProduccionBindingSource.DataSource = this.tableLayoutPanel1.ColumnStyles;
+            this.consumoProduccionBindingSource.Position = 0;
             // 
             // PConsProd
             // 
@@ -353,13 +405,15 @@
             this.Load += new System.EventHandler(this.PConsProd_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aDtoConsProdBindingSource)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.lP1DataSet1)).EndInit();
+            this.flowLayoutPanel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.lP1DataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.consumoProduccionBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -387,12 +441,17 @@
         private System.Windows.Forms.TextBox txtObserv;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button6;
-        private LP1DataSet1 lP1DataSet1;
+        private System.Windows.Forms.BindingSource aDtoConsProdBindingSource;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
+        private System.Windows.Forms.ComboBox cbCampo;
+        private LP1DataSet lP1DataSet;
+        private LP1DataSetTableAdapters.ConsumoProduccionTableAdapter consumoProduccionTableAdapter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn productoIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn productoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn insumoIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn insumoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.BindingSource consumoProduccionBindingSource;
-        private LP1DataSet1TableAdapters.ConsumoProduccionTableAdapter consumoProduccionTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn consumoInsumoIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn produccionProductoIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn observacionesDataGridViewTextBoxColumn;
     }
 }

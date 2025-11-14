@@ -22,20 +22,22 @@ namespace EjercicioAdministracion2
 
         private void RConsProd_Load(object sender, EventArgs e)
         {
-            List<ConsumoProduccion> listaOriginal = NConsProd.Get();
-            var listaParaReporte = listaOriginal.Select(cp => new
+            try
             {
-                id = cp.id,
-                consumoInsumoId = cp.consumoInsumo.id,
-                produccionProductoId = cp.produccionProducto.id,
-                observaciones = cp.observaciones
-            }).ToList();
-            ReportDataSource rds = new ReportDataSource("DataSet1", listaParaReporte);
-            reportViewer1.LocalReport.DataSources.Clear();
-            reportViewer1.LocalReport.DataSources.Add(rds);
-            reportViewer1.LocalReport.ReportEmbeddedResource = "EjercicioAdministracion2.RConsProd.rdlc";
-            reportViewer1.RefreshReport();
-            this.reportViewer1.RefreshReport();
+                List<A_DtoRConsProd> lista = NConsProd.GetReporte();
+
+                ReportDataSource rds = new ReportDataSource("DataSet", lista);
+
+                reportViewer1.LocalReport.DataSources.Clear();
+                reportViewer1.LocalReport.DataSources.Add(rds);
+                reportViewer1.LocalReport.ReportEmbeddedResource = "EjercicioAdministracion2.RConsProd.rdlc";
+
+                reportViewer1.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void reportViewer1_Load(object sender, EventArgs e)

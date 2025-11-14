@@ -44,38 +44,22 @@ namespace Negocio
                 throw ex;
             }
         }
-        public static List<ConsumoProduccion> Get()
+        public static List<A_DtoConsProd> GetDto()
         {
             try
             {
-                return DConsProd.GetAll();
+                return DConsProd.GetDto();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
-        public static List<A_DtoConsProd> GetDto()
+        public static List<A_DtoRConsProd> GetReporte()
         {
             try
             {
-                List<ConsumoProduccion> detalle = DConsProd.GetAll();
-                List<A_DtoConsProd> lista = new List<A_DtoConsProd>();
-                foreach (var item in detalle)
-                {
-                    A_DtoConsProd dto = new A_DtoConsProd
-                    {
-                        Id = item.id,
-                        ProductoId = item.produccionProducto.id,
-                        Producto = item.produccionProducto.producto.descripcion,
-                        InsumoId = item.consumoInsumo.id,
-                        Insumo = item.consumoInsumo.insumo.descripcion,
-                        Observaciones = item.observaciones
-                    };
-                    lista.Add(dto);
-                }
-                return lista;
+                return DConsProd.GetReporte();
             }
             catch (Exception ex)
             {

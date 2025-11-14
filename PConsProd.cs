@@ -1,42 +1,16 @@
-﻿//CREATE TABLE dbo.Productos ( id INT IDENTITY(1,1) NOT NULL PRIMARY KEY, descripcion NVARCHAR(200) NULL ); GO
-
-//CREATE TABLE dbo.Insumos ( id INT IDENTITY(1,1) NOT NULL PRIMARY KEY, descripcion NVARCHAR(200) NULL ); GO
-
-//CREATE TABLE dbo.ProduccionProductos ( id INT IDENTITY(1,1) NOT NULL PRIMARY KEY, fecha DATETIME2(0) NOT NULL, 
-//productoId INT NOT NULL, cantidad DECIMAL(18,3) NOT NULL, 
-//CONSTRAINT FK_ProduccionProductos_Productos FOREIGN KEY (productoId) 
-//REFERENCES dbo.Productos(id) ); GO
-
-//CREATE TABLE dbo.ConsumosInsumos ( id INT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
-//fecha DATETIME2(0) NOT NULL, cantidad DECIMAL(18,3) NOT NULL, insumoId INT NOT NULL, 
-//CONSTRAINT FK_ConsumosInsumos_Insumos FOREIGN KEY (insumoId)
-//REFERENCES dbo.Insumos(id) ); GO
-
-//CREATE TABLE dbo.ConsumoProduccion ( id INT IDENTITY(1,1) NOT NULL PRIMARY KEY, consumoInsumoId INT NOT NULL, 
-//produccionProductoId INT NOT NULL, observaciones NVARCHAR(MAX) NULL, 
-//CONSTRAINT FK_ConsumoProduccion_ConsumosInsumos FOREIGN KEY (consumoInsumoId) REFERENCES dbo.ConsumosInsumos(id), 
-//CONSTRAINT FK_ConsumoProduccion_ProduccionProductos 
-//FOREIGN KEY (produccionProductoId)
-//REFERENCES dbo.ProduccionProductos(id) ); GO
-
-using Modelos;
+﻿using Modelos;
 using Negocio;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EjercicioAdministracion2
 {
     public partial class PConsProd : Form
     {
-        List<ConsumoProduccion> consumosP = new List<ConsumoProduccion>();
-        ConsumoProduccion consumoSeleccionado = null;
+        List<A_DtoConsProd> consumosP = new List<A_DtoConsProd>();
+        A_DtoConsProd consumoSeleccionado = null;
 
         public PConsProd()
         {
@@ -45,11 +19,35 @@ namespace EjercicioAdministracion2
 
         private void PConsProd_Load(object sender, EventArgs e)
         {
-            ConsumosInsumos consumoInsumo = new ConsumosInsumos();
-            ProduccionProductos produccionProducto= new ProduccionProductos();
-            consumosP = NConsProd.Get();
-            consumoProduccionBindingSource.DataSource = null;
-            consumoProduccionBindingSource.DataSource = consumosP;
+            // TODO: esta línea de código carga datos en la tabla 'lP1DataSet.ConsumoProduccion' Puede moverla o quitarla según sea necesario.
+            this.consumoProduccionTableAdapter.Fill(this.lP1DataSet.ConsumoProduccion);
+            actualizarGrilla();
+        }
+
+        private void actualizarGrilla()
+        {
+            consumosP = NConsProd.GetDto();
+            aDtoConsProdBindingSource.DataSource = null;
+            aDtoConsProdBindingSource.DataSource = consumosP;
+        }
+
+        private void DataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (aDtoConsProdBindingSource.Current != null)
+            {
+                var seleccionado = (A_DtoConsProd)aDtoConsProdBindingSource.Current;
+                txtConsInsu.Text = seleccionado.InsumoId.ToString();
+                txtProdProd.Text = seleccionado.ProductoId.ToString();
+                txtObserv.Text = seleccionado.Observaciones;
+                consumoSeleccionado = seleccionado;
+            }
+            else
+            {
+                consumoSeleccionado = null;
+                txtConsInsu.Clear();
+                txtProdProd.Clear();
+                txtObserv.Clear();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -58,23 +56,16 @@ namespace EjercicioAdministracion2
             {
                 if (txtConsInsu.Text != "" && txtProdProd.Text != "")
                 {
-                    string observaciones = txtObserv.Text;
                     ConsumoProduccion cp = new ConsumoProduccion()
                     {
-                        consumoInsumo = new ConsumosInsumos
-                        {
-                            id = int.Parse(txtConsInsu.Text)
-                        },
-                        produccionProducto = new ProduccionProductos
-                        {
-                            id = int.Parse(txtProdProd.Text)
-                        },
-                        observaciones = observaciones
+                        consumoInsumo = new ConsumosInsumos { id = int.Parse(txtConsInsu.Text) },
+                        produccionProducto = new ProduccionProductos { id = int.Parse(txtProdProd.Text) },
+                        observaciones = txtObserv.Text
                     };
+
                     NConsProd.Create(cp);
-                    consumosP.Add(cp);
-                    consumoProduccionBindingSource.DataSource = null;
-                    consumoProduccionBindingSource.DataSource = consumosP;
+                    actualizarGrilla();
+
                     MessageBox.Show("Registro agregado con éxito", "ÉXITO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -86,6 +77,7 @@ namespace EjercicioAdministracion2
             {
                 MessageBox.Show($"ERROR: {ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
             txtConsInsu.Clear();
             txtProdProd.Clear();
             txtObserv.Clear();
@@ -100,14 +92,16 @@ namespace EjercicioAdministracion2
                     MessageBox.Show("Debe seleccionar un registro para eliminar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                DialogResult result = MessageBox.Show("¿Está seguro de que desea eliminar el registro seleccionado?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                DialogResult result = MessageBox.Show("¿Está seguro de que desea eliminar el registro seleccionado?",
+                    "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
                 if (result == DialogResult.Yes)
                 {
-                    NConsProd.Delete(consumoSeleccionado.id);
-                    consumosP.RemoveAll(cp => cp.id == consumoSeleccionado.id);
-                    consumoProduccionBindingSource.DataSource = null;
-                    consumoProduccionBindingSource.DataSource = consumosP;
+                    NConsProd.Delete(consumoSeleccionado.Id);
+                    actualizarGrilla();
                     MessageBox.Show("Registro eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     txtConsInsu.Clear();
                     txtProdProd.Clear();
                     txtObserv.Clear();
@@ -116,24 +110,6 @@ namespace EjercicioAdministracion2
             catch (Exception ex)
             {
                 MessageBox.Show($"ERROR: {ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void DataGridView1_SelectionChanged(object sender, EventArgs e)
-        {
-            if (consumoProduccionBindingSource.Current != null)
-            {
-                consumoSeleccionado = (ConsumoProduccion)consumoProduccionBindingSource.Current;
-                txtConsInsu.Text = consumoSeleccionado.consumoInsumo.id.ToString();
-                txtProdProd.Text = consumoSeleccionado.produccionProducto.id.ToString();
-                txtObserv.Text = consumoSeleccionado.observaciones;
-            }
-            else
-            {
-                consumoSeleccionado = null;
-                txtConsInsu.Clear();
-                txtProdProd.Clear();
-                txtObserv.Clear();
             }
         }
 
@@ -146,21 +122,20 @@ namespace EjercicioAdministracion2
                     MessageBox.Show("Debe seleccionar un registro para modificar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
                 if (txtConsInsu.Text != "" && txtProdProd.Text != "")
                 {
-                    consumoSeleccionado.consumoInsumo.id = int.Parse(txtConsInsu.Text);
-                    consumoSeleccionado.produccionProducto.id = int.Parse(txtProdProd.Text);
-                    consumoSeleccionado.observaciones = txtObserv.Text;
-                    NConsProd.Update(consumoSeleccionado);
-                    ConsumoProduccion cp = consumosP.Find(x => x.id == consumoSeleccionado.id);
-                    if (cp != null)
+                    ConsumoProduccion cp = new ConsumoProduccion()
                     {
-                        cp.consumoInsumo.id = consumoSeleccionado.consumoInsumo.id;
-                        cp.produccionProducto.id = consumoSeleccionado.produccionProducto.id;
-                        cp.observaciones = consumoSeleccionado.observaciones;
-                    }
-                    consumoProduccionBindingSource.DataSource = null;
-                    consumoProduccionBindingSource.DataSource = consumosP;
+                        id = consumoSeleccionado.Id,
+                        consumoInsumo = new ConsumosInsumos { id = int.Parse(txtConsInsu.Text) },
+                        produccionProducto = new ProduccionProductos { id = int.Parse(txtProdProd.Text) },
+                        observaciones = txtObserv.Text
+                    };
+
+                    NConsProd.Update(cp);
+                    actualizarGrilla();
+
                     MessageBox.Show("Registro modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -178,15 +153,28 @@ namespace EjercicioAdministracion2
         {
             try
             {
-                if (txtFiltro.Text != "")
+                if (!string.IsNullOrWhiteSpace(txtFiltro.Text) && cbCampo.SelectedItem != null)
                 {
-                    int idFiltro = int.Parse(txtFiltro.Text);
-                    consumoProduccionBindingSource.DataSource = null;
-                    consumoProduccionBindingSource.DataSource = consumosP.Where(cp => cp.produccionProducto.id == idFiltro).ToList();
+                    string campo = cbCampo.SelectedItem.ToString();
+                    string texto = txtFiltro.Text.ToLower();
+
+                    var filtrados = consumosP.Where(x =>
+                        (campo == "Producto" && x.Producto != null && x.Producto.ToLower().Contains(texto)) ||
+                        (campo == "Insumo" && x.Insumo != null && x.Insumo.ToLower().Contains(texto)) ||
+                        (campo == "Observaciones" && x.Observaciones != null && x.Observaciones.ToLower().Contains(texto)) ||
+                        (campo == "ProductoId" && x.ProductoId.ToString().Contains(texto)) ||
+                        (campo == "InsumoId" && x.InsumoId.ToString().Contains(texto))
+                    ).ToList();
+
+                    // 👉 ESTA LÍNEA FALTABA 👇
+                    aDtoConsProdBindingSource.DataSource = filtrados;
+
+                    if (filtrados.Count == 0)
+                        MessageBox.Show("No se encontraron resultados para el filtro ingresado.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Ingrese un ID de Producción para filtrar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Seleccione un campo y escriba un texto para filtrar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
@@ -197,8 +185,7 @@ namespace EjercicioAdministracion2
 
         private void button5_Click(object sender, EventArgs e)
         {
-            consumoProduccionBindingSource.DataSource = null;
-            consumoProduccionBindingSource.DataSource = consumosP;
+            actualizarGrilla();
             txtFiltro.Clear();
         }
 

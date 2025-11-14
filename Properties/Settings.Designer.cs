@@ -26,8 +26,8 @@ namespace EjercicioAdministracion2.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=MSI;Initial Catalog=LP1;Integrated Security=True;Encrypt=True;TrustSe" +
-            "rverCertificate=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=MSI;Initial Catalog=LP1;Integrated Security=True;TrustServerCertifica" +
+            "te=True")]
         public string cadena {
             get {
                 return ((string)(this["cadena"]));
