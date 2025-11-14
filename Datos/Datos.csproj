@@ -42,14 +42,60 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdmnistracionDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdmnistracionDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Class1.cs" />
+    <Compile Include="Db.cs" />
+    <Compile Include="DB_ProyectoComprasDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DB_ProyectoComprasDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="dDetalleCompra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Modelos\Modelos.csproj">
       <Project>{576fb8ca-679e-457c-b9bb-fe89902bbaa6}</Project>
       <Name>Modelos</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AdmnistracionDataSet.xsc">
+      <DependentUpon>AdmnistracionDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="AdmnistracionDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>AdmnistracionDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="AdmnistracionDataSet.xss">
+      <DependentUpon>AdmnistracionDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="app.config" />
+    <None Include="DB_ProyectoComprasDataSet.xsc">
+      <DependentUpon>DB_ProyectoComprasDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DB_ProyectoComprasDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DB_ProyectoComprasDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DB_ProyectoComprasDataSet.xss">
+      <DependentUpon>DB_ProyectoComprasDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

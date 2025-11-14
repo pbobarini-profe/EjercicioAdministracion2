@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdmnistracionDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdmnistracionDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Clientes.cs" />
     <Compile Include="ConsumoProduccion.cs" />
     <Compile Include="ConsumosInsumos.cs" />
@@ -48,6 +53,11 @@
     <Compile Include="DetalleVentas.cs" />
     <Compile Include="Insumos.cs" />
     <Compile Include="ProduccionProductos.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Proveedores.cs" />
     <Compile Include="TipoComprobante.cs" />
     <Compile Include="Compras.cs" />
@@ -55,6 +65,24 @@
     <Compile Include="Ventas.cs" />
     <Compile Include="Usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AdmnistracionDataSet.xsc">
+      <DependentUpon>AdmnistracionDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="AdmnistracionDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>AdmnistracionDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="AdmnistracionDataSet.xss">
+      <DependentUpon>AdmnistracionDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
